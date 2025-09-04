@@ -51,6 +51,22 @@ public class CustomerService {
                 });
     }
 
+    // FILTRO / BUSCA
+    public List<CustomerResponseDTO> search(String cpf, String cep, String state, String name, String email) {
+        Specification<Customer> spec = Specification
+                .where(CustomerSpecifications.hasCpf(cpf)) // Busca por cpf
+                .and(CustomerSpecifications.hasCep(cep))    // Buscap por CEP
+                .and(CustomerSpecifications.hasState(state))  // Busca por estado
+                .and(CustomerSpecifications.nameContains(name)) // Busca por nome
+                .and(CustomerSpecifications.emailEquals(email)); //Busca por email
+
+        // Retorno da busca
+        return repository.findAll(spec)
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
     // Transferencia DTO para segurança
     private Customer fromCreateDTO(CustomerCreateDTO dto) {
         Customer c = new Customer();
