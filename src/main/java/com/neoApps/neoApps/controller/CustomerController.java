@@ -1,26 +1,56 @@
 package com.neoApps.neoApps.controller;
 
-import com.neoApps.neoApps.model.Customer;
-import com.neoApps.neoApps.validation.CustomerValidation;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.neoApps.neoApps.dto.CustomerCreateDTO;
+import com.neoApps.neoApps.dto.CustomerResponseDTO;
+import com.neoApps.neoApps.service.CustomerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
 
-    @Autowired
-    private CustomerValidation customerValidation;
+    private final CustomerService customerService;
 
-    // Endpoint de teste para criar um cliente
-    @PostMapping("/test")
-    public ResponseEntity<String> createCustomer(@RequestBody Customer customer) {
-        try {
-            customerValidation.validate(customer); // chama validação
-            return ResponseEntity.ok("Cliente válido!");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
-        }
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
+
+    // --- Criar um cliente ---
+    @Operation(summary = "Cria um novo cliente", description = "Recebe os dados de um cliente e cria um registro no sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente criado com sucesso",
+                    content = @Content(schema = @Schema(implementation = CustomerResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+                    content = @Content)
+    })
+    @PostMapping
+    public ResponseEntity<CustomerResponseDTO> create(@Valid @RequestBody CustomerCreateDTO dto) {
+        return ResponseEntity.ok(customerService.create(dto));
+    }
+
+    // --- Listar todos ---
+    @Operation(summary = "Lista todos os clientes", description = "Retorna uma lista com todos os clientes cadastrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista retornada com sucesso",
+                    content = @Content(schema = @Schema(implementation = CustomerResponseDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+                    content = @Content)
+    })
+    @GetMapping
+    public ResponseEntity<List<CustomerResponseDTO>> listAll() {
+        List<CustomerResponseDTO> response = customerService.listAllDTO();
+        return ResponseEntity.ok(response);
+    }
+
 }
