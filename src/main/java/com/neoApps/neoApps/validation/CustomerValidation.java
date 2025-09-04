@@ -34,6 +34,14 @@ public class CustomerValidation {
         }
     }
 
+    private void validateAge(int age) {
+        if (age <= 0 || age > 120) {
+            throw new IllegalArgumentException("Idade inválida. Deve estar entre 1 e 120.");
+        }
+    }
+
+
+
 
 
 }
