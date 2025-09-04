@@ -1,51 +1,72 @@
-# NeoApps - API de Cadastro de Clientes
+# 🚀 NeoApps - API de Cadastro de Clientes (Teste Técnico)
 
-![Spring Boot](https://spring.io/images/projects/spring-boot-4f3e2b22fb2a1c4865f79f5991d7c35e.png)
+![Spring Boot](https://raw.githubusercontent.com/spring-projects/spring-boot/main/spring-boot.png)
 
-## Desafio
-
-Este projeto foi desenvolvido como parte do processo de candidatura da NeoApps.  
-O objetivo foi construir um **MVP de API REST** para cadastro de clientes pessoa física, com funcionalidades de:
-
-- Inclusão de novos clientes
-- Atualização de clientes existentes
-- Exclusão de clientes existentes
-- Listagem paginada de clientes
-- Busca por atributos cadastrais (CPF, CEP, Estado, Nome, Email)
-- Retorno da idade calculada a partir da data de nascimento
-- Documentação Swagger para toda a API
-- Segurança com Spring Security e JWT
-- Persistência de dados com Spring Data JPA (H2 Database para testes)
+> Este projeto foi desenvolvido como parte do **processo seletivo da NeoApps**.  
+> O objetivo é demonstrar habilidades em **Spring Boot, REST API, Spring Security, JWT e JPA**.
 
 ---
 
-## Tecnologias Utilizadas
+## 📝 Objetivo do Teste
 
-- Java 21
-- Spring Boot 3.3.x
-- Spring Data JPA
-- Spring Security + JWT
-- H2 Database (banco em memória)
-- Swagger/OpenAPI (springdoc)
-- Lombok
-- Maven
+Construir um **MVP de API REST** para cadastro de clientes pessoa física com funcionalidades essenciais:
 
----
-
-## Estrutura do Projeto
-
-- `com.neoApps.neoApps.controller` → Controllers da API (`CustomerController`, `AuthController`)
-- `com.neoApps.neoApps.dto` → DTOs para Requests e Responses (`CustomerCreateDTO`, `CustomerResponseDTO`, `CustomerUpdateDTO`)
-- `com.neoApps.neoApps.model` → Entidade `Customer`
-- `com.neoApps.neoApps.repository` → Repositório JPA
-- `com.neoApps.neoApps.security` → JWT Util, Password Encoder, SecurityConfig
-- `com.neoApps.neoApps.service` → Lógica de negócio e manipulação de clientes
+- ✅ Criar novos clientes  
+- ✅ Atualizar clientes existentes  
+- ✅ Excluir clientes  
+- ✅ Listar clientes de forma paginada  
+- ✅ Buscar clientes por atributos cadastrais (CPF, CEP, Estado, Nome, Email)  
+- ✅ Retornar a **idade calculada** a partir da data de nascimento  
+- ✅ Documentar a API com **Swagger/OpenAPI**  
+- ✅ Proteger endpoints com **Spring Security + JWT**  
+- ✅ Utilizar **Spring Data JPA** para persistência  
 
 ---
 
-## Como Rodar
+## 🛠 Tecnologias Utilizadas
 
-### Com Maven
+- 💻 **Java 21**  
+- 🌱 **Spring Boot 3.3.x**  
+- 🔐 **Spring Security + JWT**  
+- 🗄 **Spring Data JPA** (H2 Database em memória)  
+- 📄 **Swagger/OpenAPI (springdoc)**  
+- ✨ **Lombok**  
+- ⚙️ **Maven**  
 
-```bash
-mvn clean spring-boot:run
+---
+
+## 📁 Estrutura do Projeto
+
+- `com.neoApps.neoApps.controller` → Controllers da API (`CustomerController`, `AuthController`)  
+- `com.neoApps.neoApps.dto` → DTOs de Request/Response (`CustomerCreateDTO`, `CustomerResponseDTO`, `CustomerUpdateDTO`)  
+- `com.neoApps.neoApps.model` → Entidade `Customer`  
+- `com.neoApps.neoApps.repository` → Repositório JPA  
+- `com.neoApps.neoApps.security` → JWT Util, Password Encoder, SecurityConfig  
+- `com.neoApps.neoApps.service` → Lógica de negócio e manipulação de clientes  
+
+---
+
+## ⚡ Funcionalidades
+
+### 🔑 Autenticação
+
+- `POST /auth/login`  
+  Recebe **email** e **password** e retorna um **JWT** para acesso aos endpoints protegidos.
+
+### 👤 Clientes
+
+- `POST /customers` → Criar cliente (JWT necessário)  
+- `GET /customers` → Listar todos os clientes (JWT necessário)  
+- `GET /customers/search` → Buscar clientes por atributos (JWT necessário)  
+- `DELETE /customers/{id}` → Excluir cliente por ID (JWT necessário)  
+
+> Todos os endpoints protegidos devem receber o header:  
+> `Authorization: Bearer <token>`
+
+---
+
+## 📚 Swagger
+
+A documentação da API está disponível em:
+http://localhost:8080/swagger-ui.html
+
