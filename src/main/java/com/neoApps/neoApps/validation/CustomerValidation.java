@@ -28,5 +28,12 @@ public class CustomerValidation {
         }
     }
 
+    private void validateCep(String cep) {
+        if (cep == null || !cep.matches("^\\d{8}$")) {
+            throw new IllegalArgumentException("Formato de CEP inválido. Esperado: 8 dígitos.");
+        }
+    }
+
+
 
 }
