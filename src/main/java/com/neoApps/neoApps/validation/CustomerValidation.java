@@ -40,8 +40,16 @@ public class CustomerValidation {
         }
     }
 
+    private void validateNumberHouse(int numberHouse) {
+        int length = String.valueOf(numberHouse).length();
 
-
+        if (numberHouse < 1) {
+            throw new IllegalArgumentException("Número da casa deve ser maior que zero");
+        }
+        if (length > 4) {
+            throw new IllegalArgumentException("Formato de número da casa inválido. Máximo: 4 dígitos.");
+        }
+    }
 
 
 }
