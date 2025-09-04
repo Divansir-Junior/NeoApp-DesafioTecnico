@@ -1,0 +1,36 @@
+
+Quebrei o projeto em pequenas partes. Depois fui juntando-as e decidi separá-las da maneira que achei melhor.
+
+Uso de ENUMS para estado e sexo – Ao usar String, seria fácil burlar ou quebrar o código. Com enum, temos mais controle, escalabilidade e melhor leitura do código.
+
+DTO – Achei uma boa prática criar um DTO para cada retorno da API, protegendo-a e aplicando boas práticas de desenvolvimento.
+
+Service e Validação – Mantive toda a lógica de criação, atualização, exclusão e busca de clientes dentro do service. Para validações específicas, como CPF ou campos obrigatórios, criei uma classe de validação separada. Assim, o controller não fica poluído e o service centraliza as regras de negócio.
+
+Controller – Cada endpoint está documentado com Swagger (OpenAPI). Adicionei validação de token JWT em todos os endpoints que alteram ou listam dados, garantindo que apenas usuários autenticados possam acessar. Também incluí um endpoint PUT para atualizar clientes, que antes não existia.
+
+Segurança (Spring Security + JWT) – Para autenticação, usei um AuthController simples que gera token JWT ao fazer login com usuário e senha fixos (poderia ser integrado a um banco futuramente). Todas as senhas são criptografadas com BCrypt usando a classe PasswordEncoder. Isso garante que, mesmo que alguém acesse o banco, as senhas não estarão em texto puro.
+
+Documentação Swagger – Todo o projeto está documentado via Swagger, mostrando claramente endpoints, parâmetros e tipos de retorno, facilitando testes e leitura do projeto.
+
+Docker – Criei um Dockerfile no diretório raiz do projeto. Ele copia o JAR da aplicação, expõe a porta 8080 e permite que o projeto seja executado isoladamente em qualquer lugar que tenha Docker instalado.
+
+Estrutura organizada – Separei os pacotes da seguinte forma:
+
+controller → endpoints da API
+
+dto → objetos de transferência
+
+service → regras de negócio
+
+model → entidades JPA
+
+repository → interfaces de acesso a dados
+
+security → classes de autenticação, JWT e criptografia
+
+validation → regras de validação específicas
+
+Busca dinâmica – Usei Spring Data JPA Specification para permitir filtros por CPF, CEP, estado, nome e e-mail. Isso deixa a API flexível, sem precisar criar vários endpoints separados.
+
+Idade calculada – Todo cliente retornado pela API já vem com a idade calculada a partir da data de nascimento, atendendo a um requisito do teste técnico.
