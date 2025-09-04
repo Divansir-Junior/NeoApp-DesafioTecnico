@@ -53,7 +53,22 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
-
+    //  EXCLUIR POR ID
+    @Operation(summary = "Exclui por ID", description = "Deleta um registro pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Cliente deletado com sucesso",
+                    content = @Content), // sem corpo retornado
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+                    content = @Content)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> delete(@PathVariable Long id) {
+        return customerService.deleteById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     // BUSCA DINÃMICA
     @Operation(summary = "Filtro dinâmico", description = " Permite buscar por : | CPF|" +
