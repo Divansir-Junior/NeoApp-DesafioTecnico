@@ -42,6 +42,15 @@ public class CustomerService {
                 .toList();
     }
 
+    // DELETE POR ID .
+    public Optional<CustomerResponseDTO> deleteById(Long id) {
+        return repository.findById(id)
+                .map(c -> {
+                    repository.delete(c);
+                    return toDTO(c);
+                });
+    }
+
     // Transferencia DTO para segurança
     private Customer fromCreateDTO(CustomerCreateDTO dto) {
         Customer c = new Customer();
