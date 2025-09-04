@@ -3,6 +3,10 @@ package com.neoApps.neoApps.dto;
 import jakarta.validation.constraints.Email;
 import java.time.LocalDate;
 
+/**
+ * DTO para atualizar dados do cliente.
+ * Todos os campos são opcionais.
+ */
 public record CustomerUpdateDTO(
         String name,
         String password,

@@ -2,6 +2,7 @@ package com.neoApps.neoApps.controller;
 
 import com.neoApps.neoApps.dto.CustomerCreateDTO;
 import com.neoApps.neoApps.dto.CustomerResponseDTO;
+import com.neoApps.neoApps.dto.CustomerUpdateDTO;
 import com.neoApps.neoApps.service.CustomerService;
 import com.neoApps.neoApps.security.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +34,7 @@ public class CustomerController {
         }
     }
 
-    // --- Criar um cliente ---
+    // --- Criar cliente ---
     @Operation(summary = "Cria um novo cliente", description = "Recebe os dados de um cliente e cria um registro no sistema")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cliente criado com sucesso",
@@ -50,6 +51,30 @@ public class CustomerController {
 
         validateToken(token);
         return ResponseEntity.ok(customerService.create(dto));
+    }
+
+    // --- Atualizar cliente ---
+    @Operation(summary = "Atualiza um cliente", description = "Recebe os dados de atualização de um cliente e aplica as alterações")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente atualizado com sucesso",
+                    content = @Content(schema = @Schema(implementation = CustomerResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor",
+                    content = @Content)
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> update(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long id,
+            @Valid @RequestBody CustomerUpdateDTO dto) {
+
+        validateToken(token);
+        return customerService.update(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // --- Listar todos ---
@@ -70,12 +95,9 @@ public class CustomerController {
     // --- Excluir por ID ---
     @Operation(summary = "Exclui por ID", description = "Deleta um registro pelo ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Cliente deletado com sucesso",
-                    content = @Content), // sem corpo retornado
-            @ApiResponse(responseCode = "404", description = "Cliente não encontrado",
-                    content = @Content),
-            @ApiResponse(responseCode = "500", description = "Erro interno do servidor",
-                    content = @Content)
+            @ApiResponse(responseCode = "204", description = "Cliente deletado com sucesso", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor", content = @Content)
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> delete(
