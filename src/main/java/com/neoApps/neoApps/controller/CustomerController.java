@@ -53,4 +53,21 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
+
+
+    // BUSCA DINÃMICA
+    @Operation(summary = "Filtro dinâmico", description = " Permite buscar por : | CPF|" +
+            "CEP| Estado | Nome | Email")
+    @GetMapping("/search")
+    public ResponseEntity<List<CustomerResponseDTO>> search(
+            @RequestParam(required = false) String cpf,
+            @RequestParam(required = false) String cep,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String email
+    ) {
+        List<CustomerResponseDTO> response = customerService.search(cpf, cep, state, name, email);
+        return ResponseEntity.ok(response);
+    }
+
 }
