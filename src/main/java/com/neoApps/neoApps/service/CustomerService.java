@@ -27,6 +27,13 @@ public class CustomerService {
         this.repository = repository;
     }
 
+    // CRIA UM CLIENTE
+    public CustomerResponseDTO create(CustomerCreateDTO dto) {
+        Customer customer = fromCreateDTO(dto);
+        validator.validate(customer);
+        return toDTO(repository.save(customer));
+    }
+
     // Transferencia DTO para segurança
     private Customer fromCreateDTO(CustomerCreateDTO dto) {
         Customer c = new Customer();
