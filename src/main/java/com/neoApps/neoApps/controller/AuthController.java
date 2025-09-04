@@ -4,6 +4,10 @@ import com.neoApps.neoApps.model.Customer;
 import com.neoApps.neoApps.repository.CustomerRepository;
 import com.neoApps.neoApps.security.JwtUtil;
 import com.neoApps.neoApps.security.Password;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -25,6 +29,17 @@ public class AuthController {
      * @param password senha do usuário
      * @return token JWT
      */
+
+    @Operation(
+            summary = "Autenticação via JWT",
+            description = "Valida o token JWT enviado no header 'Authorization' no formato 'Bearer <token>'.\n\n" +
+                    "Caso o token seja inválido ou expirado, retorna erro 401.\n"
+
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Token válido, requisição autorizada"),
+            @ApiResponse(responseCode = "401", description = "Token inválido ou expirado", content = @Content)
+    })
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password) {
 
