@@ -34,6 +34,14 @@ public class CustomerService {
         return toDTO(repository.save(customer));
     }
 
+    // LISTA TODOS OS CLIENTES
+    public List<CustomerResponseDTO> listAllDTO() {
+        return repository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
     // Transferencia DTO para segurança
     private Customer fromCreateDTO(CustomerCreateDTO dto) {
         Customer c = new Customer();
